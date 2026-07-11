@@ -23,7 +23,7 @@ counterStory.update(s => s.count = 50);
 
 But what good would a Story be if no one ever heard it?
 
-Along with `select` and `update`, Story-Stores provides a first-class mechanism for subscribing to another store, called `listen`:
+Along with `select` and `update`, Story-Stores provides a first-class mechanism for subscribing to a selection of another store, called `listen`:
 
 ```js
 const messageStory = createStoryStore(({ update, listen }) => {
@@ -40,7 +40,7 @@ const messageStory = createStoryStore(({ update, listen }) => {
 messageStory.select(s => s.message); // "Count is 1"
 ```
 
-We believe that if you are going to depend on something, the best way to do that is by _listening_ to them right from the very start. In addition to being respectful, this also allows for the dependency graph between stores to be known statically.
+We believe that if you are going to depend on something, the best way to do that is by _listening_ to them right from the very start. In addition to being respectful, this also makes the dependency graph between stores easier to reason about.
 
 **Active Listening**: Listeners are primed during store initialization, so you don't need to redundantly select from the child store to set the initial state.
 
@@ -60,7 +60,7 @@ export function MyComponent() {
 }
 ```
 
-Or, like Zustand, you can use `createStory` to create a Story that is its own hook:
+Or, similar to Zustand, you can use `createStory` to create a Story that is its own hook:
 
 ```js
 // MyStory.js
@@ -169,7 +169,7 @@ const onClick = () => {
 };
 ```
 
-This ensures that all three updates will happen together, before any listeners (including React) are invoked.
+This ensures that all three updates will happen together, before any listeners (including React) are notified.
 
 Batches can be nested.
 
@@ -178,7 +178,7 @@ Batches can be nested.
 The hook returned by `createStory` holds a reference to the vanilla StoryStore (see below for an API reference). You can subscribe to a store manually for non-reactive updates:
 
 ```js
-const getFoo = (s) => s.foo;
+const getFoo = s => s.foo;
 const fooRef = useRef(useMyStory.store.select(getFoo));
 useEffect(() => {
   const unsub = useMyStory.store.subscribe(
@@ -232,7 +232,7 @@ The `batch` function looks like this:
 type Batch = <T>(action: () => T) => T;
 ```
 
-A shallow-equality function is provided via `import { shallow } from 'story-stores/shallow'`. It is just a rip-off of the one from Zustand: it works with objects, arrays, iterables, and anything with iterable `.entries()` like Sets and Maps.
+A shallow-equality function is provided via `import { shallow } from 'story-stores/vanilla'`. It is just a rip-off of the one from Zustand: it works with objects, arrays, iterables, and anything with iterable `.entries()` like Sets and Maps.
 
 ### React API
 

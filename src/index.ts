@@ -6,7 +6,6 @@ export {
 } from './react';
 
 export type {
-  UseStoryStore,
   UseStory,
   Story,
 } from './react';

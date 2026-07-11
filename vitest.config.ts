@@ -4,4 +4,8 @@ export default defineConfig({
   define: {
     IS_SERVER: 'false',
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+  },
 });

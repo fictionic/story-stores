@@ -1,5 +1,7 @@
 import { produce } from 'immer';
 
+export { shallow } from './shallow';
+
 export type Selector<State, T> = (state: State) => T;
 export type Updater<State> = (state: State) => void;
 export type Consumer<T> = (value: T) => void;
@@ -32,8 +34,7 @@ export type StoryInit<State> = (fns: StoryInitFns<State>) => State;
 // cross-store, module-level state. should not be used during server rendering.
 let batchDepth = 0;
 let pendingEmits = new Set<() => void>();
-export type Batch = <T>(action: () => T) => T;
-export const batch: Batch = (action) => {
+export function batch<T>(action: () => T): T {
   try {
     batchDepth++;
     return action();
@@ -55,7 +56,9 @@ type Listener<State, T> = {
   equals: Equals<T>;
 };
 
-export const createStoryStore = <State extends object>(init: StoryInit<State>): StoryStore<State> => {
+export function createStoryStore<State extends object>(init: StoryInit<State>): StoryStore<State> {
+  // State is constrained only to 'object' because that's the constraint on Proxy,
+  // which is all we actually need from it
   let state: State = new Proxy<State>({} as State, {
     get: () => { throw new Error("not ready"); },
     set: () => { throw new Error("not ready"); },

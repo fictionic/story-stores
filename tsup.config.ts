@@ -15,7 +15,5 @@ export default defineConfig({
     'react-dom',
     'react/jsx-runtime',
     'immer',
-    '@verso-js/stores',
-    '@verso-js/verso',
   ],
 });
