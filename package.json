@@ -1,8 +1,10 @@
 {
   "name": "story-stores",
-  "version": "0.0.0",
-  "private": true,
+  "description": "A small Zustand-inspired state management library built around inter-store subscriptions",
+  "keywords": ["state-management", "zustand", "immer", "react", "store", "story"],
+  "version": "0.1.0",
   "type": "module",
+  "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -27,13 +29,14 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run",
-    "typecheck": "bunx tsc --noEmit"
+    "typecheck": "bunx tsc --noEmit",
+    "prepack": "tsup"
   },
   "peerDependencies": {
-    "react": "^19.2.4"
+    "react": "^19"
   },
   "dependencies": {
-    "immer": "*"
+    "immer": "^11"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
